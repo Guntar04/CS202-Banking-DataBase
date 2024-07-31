@@ -5,10 +5,73 @@
     <title>Profile</title>
 </head>
 <body>
-    <h1>Profile</h1>
-    <p>First Name: {{ firstName }}</p>
-    <p>Last Name: {{ lastName }}</p>
-    <p>Email: {{ email }}</p>
-    <p><a href="/home">Home</a></p>
+<style>
+    
+    nav {
+        background-color: rgb(17, 108, 211);
+        border-radius: 5px;
+    }
+
+    ul {
+        display: flex;
+        list-style-type: none;
+        padding: 2% 0% 2% 3%;
+        font-size: 200%;
+        color: white;
+        margin: 0%;
+    }
+
+    li {
+        margin-right: 20px;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+    body {
+        background-color: #0034a3;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
+
+    .line {
+        border-bottom: 1px solid #888;
+    }
+
+    .contentBody {
+        background-color: #202020c2;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 0 auto; 
+        width: 66.67%;
+    }
+    .content p{
+        font-size: 150%;
+        padding: 20px 30px 20px 30px;
+    }
+</style>
+</head>
+<nav>
+    <ul>
+        <li> NexBank </li>
+        <li><a href="/home">Home</a></li>
+        <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
+    </ul>
+</nav>
+<body>
+    <div class="contentBody">
+        <img src="/images/profile.png" alt="Profile Image" style="float: left; margin-right: 10px;">
+        <h1>Profile</h1>
+        <hr>
+        <div class="content">
+            <p>First Name: {{ firstName }}</p>
+            <p>Last Name: {{ lastName }}</p>
+            <p>Email: {{ email }}</p>
+        </div>
+    </div>
+    
+</body>
+
 </body>
 </html>
