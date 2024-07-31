@@ -5,6 +5,30 @@
     <title>Profile</title>
 </head>
 <body>
+</head>
+<nav>
+    <ul>
+        <li> NexBank </li>
+        <li><a href="/home">Home</a></li>
+        <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
+    </ul>
+</nav>
+<body>
+    <div class="contentBody">
+        <img src="/images/profile.png" alt="Profile Image" style="float: left; margin-right: 10px;">
+        <h1>Profile</h1>
+        <hr>
+        <div class="content">
+            <p>First Name: {{ firstName }}</p>
+            <p>Last Name: {{ lastName }}</p>
+            <p>Email: {{ email }}</p>
+        </div>
+    </div>
+    
+</body>
+
+</body>
+
 <style>
     
     nav {
@@ -51,27 +75,4 @@
         padding: 20px 30px 20px 30px;
     }
 </style>
-</head>
-<nav>
-    <ul>
-        <li> NexBank </li>
-        <li><a href="/home">Home</a></li>
-        <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
-    </ul>
-</nav>
-<body>
-    <div class="contentBody">
-        <img src="/images/profile.png" alt="Profile Image" style="float: left; margin-right: 10px;">
-        <h1>Profile</h1>
-        <hr>
-        <div class="content">
-            <p>First Name: {{ firstName }}</p>
-            <p>Last Name: {{ lastName }}</p>
-            <p>Email: {{ email }}</p>
-        </div>
-    </div>
-    
-</body>
-
-</body>
 </html>

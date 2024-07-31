@@ -7,7 +7,7 @@ app.secret_key = 'your_secret_key'
 
 def get_db_connection():
     try:
-        conn = sqlite3.connect('d:/Uni Work/CS202/Banking Database/database/bankingDB.db')
+        conn = sqlite3.connect("D:/Uni Work/GitHub/CS202-Banking-DataBase/database/bankingDB.db")
         conn.row_factory = sqlite3.Row
         conn.commit()
         return conn
@@ -40,6 +40,10 @@ def signup():
         lastName = request.form['lastName']
         email = request.form['email']
         password = request.form['password']
+        
+        if len(email) < 3 or len(password) < 3:
+            return "<script>alert('Email and password must be at least 3 characters long.'); window.location.href='/signup';</script>"
+        
         hashed_password = generate_password_hash(password)
         conn = get_db_connection()
         try:

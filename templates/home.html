@@ -3,39 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <style>
-        body {
-            background-color: #f2f2f2;
-            font-family: Arial, sans-serif;
-        }
-        
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-        
-        p {
-            text-align: center;
-        }
-        
-        a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        
-        a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    
 </head>
 <body>
-    <h1>Welcome to the Banking Website</h1>
-    <p><a href="/profile">Go to Profile</a></p>
-    <p><a href="/logout">Logout</a></p>
-</body>
+    <nav>
+        <ul>
+            <li> NexBank </li>
+            <li><a href="/profile">Profile</a></li>
+            <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
+        </ul>
+    </nav>
+    <div class="contentBody">
+        <h1>Welcome to NexBank's Banking System</h1>
+        <hr>
+        <div class="content">
+            <div class="box" style="background-color: #3c72d6;">
+            <h2>Loan Scheme</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <button class="fake-button">Click Here</button>
+            </div>
+            <div class="box" style="background-color: #488ce6;">
+            <h2>Deposit Scheme</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <button class="fake-button">Click Here</button>
+            </div>
+            <div class="box" style="background-color: #4db0f1;">
+            <h2>Loan Scheme</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <button class="fake-button">Click here</button>
+            </div>
+        </div>
+        </div>
+    </body>
+
+    <style>
+    
+    nav {
+        background-color: rgb(17, 108, 211);
+        border-radius: 5px;
+    }
+
+    ul {
+        display: flex;
+        list-style-type: none;
+        padding: 2% 0% 2% 3%;
+        font-size: 200%;
+        color: white;
+        margin: 0%;
+    }
+
+    li {
+        margin-right: 20px;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+    body {
+        background-color: #ffffff;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
+
+    .contentBody {
+        background-color: #202020c2;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 0 auto; 
+        width: 66.67%;
+        text-align: center;
+    }
+    .content p{
+        font-size: 150%;
+        padding: 20px 30px 20px 30px;
+    }
+    .box {
+        display: inline-block;
+        width: 30%;
+        padding: 1%;
+        
+        text-align: center;
+        border-radius: 5px;
+        }
+
+        .fake-button {
+        background-color: #c0a71a;
+        color: white;
+        font-size: 150%;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: not-allowed;
+        }
+</style>
 </html>

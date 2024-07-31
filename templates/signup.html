@@ -5,18 +5,67 @@
     <title>Sign Up</title>
 </head>
 <body>
-    <h1>Sign Up</h1>
-    <form method="post" action="/signup">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName"><br><br>
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName"><br><br>
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email"><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"><br><br>
-        <input type="submit" value="Sign Up">
-        <button onclick="window.location.href='login'; return false;">Back to Login</button>
-    </form>
+    <div class="contentTop">
+        <h1>NexBank - Sign Up</h1>
+    </div>
+    <div class="contentBody">
+        <form method="post" action="/signup">
+            <label for="firstName">First Name:</label><br><br>
+            <input type="text" id="firstName" name="firstName"><br><br>
+            <label for="lastName">Last Name:</label><br><br>
+            <input type="text" id="lastName" name="lastName"><br><br>
+            <label for="email">Email:</label><br><br>
+            <input type="text" id="email" name="email"><br><br>
+            <label for="password">Password:</label><br><br>
+            <input type="password" id="password" name="password"><br><br>
+            <input type="submit" value="Sign Up">
+            <button onclick="window.location.href='login'; return false;">Back to Login</button>
+        </form>
+    </div>
 </body>
+
+<style>
+
+    body {
+        background-color: #122eaa;
+        font-family:'Times New Roman', Times, serif;
+        color: white;
+    }
+
+    .line {
+        border-bottom: 1px solid #888;
+    }
+
+    .contentTop {
+        background-color: rgb(17, 108, 211);
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        margin-right:  auto;
+        margin-left:  auto;
+        text-align: center;
+        width: 50%;
+    }
+
+    .contentBody {
+        background-color: #202020c2;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 0 auto; 
+        width: 50%;
+        text-align: center;
+        font-size:  150%;
+    }
+    
+    input,button {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ffffff;
+        background-color: #888;
+        font-size: 150%;
+        color: white;
+        border-radius: 50px;
+    }
+    
+</style>
 </html>
