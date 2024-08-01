@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li>NexBank</li>
+        <li><a href="/home">Home</a></li>
+        <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
+    </ul>
+</nav>
+<div class="contentBody">
+    <h1>Banking Information</h1>
+    <hr>
+    <div class="tableContainer">
+        <div class="table">
+            <table>
+                <colgroup>
+                    <col style="width: 33%;">
+                    <col style="width: 33%;">
+                    <col style="width: 33%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Type of Transaction</th>
+                        <th>Date of Transaction</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.transType }}</td>
+                        <td>{{ transaction.transDate }}</td>
+                        <td>{{ transaction.transAmount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button onclick="deposit()">Deposit</button>
+            <button onclick="withdraw()">Withdraw</button>
+        </div>
+    </div>
+    <p>Total Amount: {{ totalMoney }}</p>
+</div>
+
+<script>
+    function deposit() {
+        var amount = prompt("Enter the amount to deposit:");
+        fetch('/bank', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                amount: amount,
+                transaction_type: 'deposit'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error: Unable to process the transaction.');
+        });
+    }
+
+    function withdraw() {
+        var amount = prompt("Enter the amount to withdraw:");
+        fetch('/bank', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                amount: amount,
+                transaction_type: 'withdraw'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error: Unable to process the transaction.');
+        });
+    }
+</script>
+
+<style>
+    nav {
+        background-color: rgb(17, 108, 211);
+        border-radius: 5px;
+    }
+
+    ul {
+        display: flex;
+        list-style-type: none;
+        padding: 2% 0% 2% 3%;
+        font-size: 200%;
+        color: white;
+        margin: 0%;
+    }
+
+    li {
+        margin-right: 20px;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    body {
+        background-color: #0034a3;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
+
+    .line {
+        border-bottom: 1px solid #888;
+    }
+
+    .tableContainer {
+        display: flex;
+        justify-content: center;
+        font-size: 200%;
+    }
+
+    .contentBody {
+        background-color: #202020c2;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 0 auto; 
+        width: 66.67%;
+    }
+
+    .content p {
+        font-size: 150%;
+        padding: 20px 30px 20px 30px;
+    }
+</style>
+</body>
+</html>

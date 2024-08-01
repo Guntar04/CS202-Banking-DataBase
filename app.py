@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
+import random
+import string  
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -47,7 +50,24 @@ def signup():
         hashed_password = generate_password_hash(password)
         conn = get_db_connection()
         try:
-            conn.execute('INSERT INTO users (firstName, lastName, email, password) VALUES (?, ?, ?, ?)', (firstName, lastName, email, hashed_password))
+            # Generate random banking number
+            banking_number = generate_banking_number()
+            
+            # Insert user into users table
+            conn.execute('INSERT INTO users (firstName, lastName, email, password, bankingNumber, totalMoney) VALUES (?, ?, ?, ?, ?, ?)', (firstName, lastName, email, hashed_password, banking_number, 100))
+            
+            # Insert user into userBank table
+            conn.execute('INSERT INTO userBank (bankingNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', (banking_number, datetime.now(), 'Initial Deposit', 100))
+            
+            conn.commit()
+            banking_number = generate_banking_number()
+            
+            # Insert user into users table
+            conn.execute('INSERT INTO users (firstName, lastName, email, password, bankingNumber) VALUES (?, ?, ?, ?, ?)', (firstName, lastName, email, hashed_password, banking_number))
+            
+            # Insert user into userBank table
+            conn.execute('INSERT INTO userBank (bankingNumber, moneyAmount, transDate, transType, transAmount) VALUES (?, ?, ?, ?, ?)', (banking_number, 100, datetime.now(), 'Initial Deposit', 100))
+            
             conn.commit()
         except sqlite3.IntegrityError:
             return 'User already exists'
@@ -56,18 +76,65 @@ def signup():
         return redirect(url_for('home'))
     return render_template('signup.html')
 
+def generate_banking_number():
+    # Generate a random 10-digit banking number
+    banking_number = ''.join(random.choices(string.digits, k=10))
+    return banking_number
+
 @app.route('/home')
 def home():
     if 'email' not in session:
         return redirect(url_for('login'))
     return render_template('home.html')
 
+@app.route('/bank', methods=['GET', 'POST'])
+def bank():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    
+    with get_db_connection() as conn:
+        user = conn.execute('SELECT * FROM users WHERE email = ?', (session['email'],)).fetchone()
+        userBank = conn.execute('SELECT * FROM userBank WHERE bankingNumber = ?', (user['bankingNumber'],)).fetchall()
+    
+    if request.method == 'POST':
+        try:
+            data = request.get_json()
+            if 'amount' not in data or 'transaction_type' not in data:
+                return {'success': False, 'message': 'Invalid request: amount or transaction_type is missing'}, 400
+            
+            amount = int(data['amount'])
+            transaction_type = data['transaction_type']
+            
+            if transaction_type == 'deposit':
+                new_total_money = user['totalMoney'] + amount
+            elif transaction_type == 'withdraw':
+                new_total_money = user['totalMoney'] - amount
+            else:
+                return {'success': False, 'message': 'Invalid transaction type'}, 400
+            
+            with get_db_connection() as conn:
+                conn.execute('UPDATE users SET totalMoney = ? WHERE email = ?', (new_total_money, session['email']))
+                conn.commit()
+                
+                # Insert new transaction record into userBank table
+                conn.execute('INSERT INTO userBank (bankingNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', 
+                            (user['bankingNumber'], datetime.now().strftime('%Y-%m-%d %H:%M:%S'), transaction_type, amount))
+                conn.commit()
+            
+            return {'success': True}
+        except Exception as e:
+            return {'success': False, 'message': str(e)}, 500
+
+    return render_template('bank.html', totalMoney=user['totalMoney'], bankingNumber=user['bankingNumber'], transactions=userBank)
+
 @app.route('/profile')
 def profile():
     if 'email' not in session:
         return redirect(url_for('login'))
+    
     with get_db_connection() as conn:
         user = conn.execute('SELECT * FROM users WHERE email = ?', (session['email'],)).fetchone()
+    
     return render_template('profile.html', email=session['email'], firstName=user['firstName'], lastName=user['lastName'])
 
 @app.route('/logout')
@@ -76,4 +143,5 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
+    app.secret_key = 'your_secret_key'
     app.run(debug=True)
