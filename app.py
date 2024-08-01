@@ -57,23 +57,16 @@ def signup():
             conn.execute('INSERT INTO users (firstName, lastName, email, password, bankingNumber, totalMoney) VALUES (?, ?, ?, ?, ?, ?)', (firstName, lastName, email, hashed_password, banking_number, 100))
             
             # Insert user into userBank table
-            conn.execute('INSERT INTO userBank (bankingNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', (banking_number, datetime.now(), 'Initial Deposit', 100))
-            
-            conn.commit()
-            banking_number = generate_banking_number()
-            
-            # Insert user into users table
-            conn.execute('INSERT INTO users (firstName, lastName, email, password, bankingNumber) VALUES (?, ?, ?, ?, ?)', (firstName, lastName, email, hashed_password, banking_number))
-            
-            # Insert user into userBank table
-            conn.execute('INSERT INTO userBank (bankingNumber, moneyAmount, transDate, transType, transAmount) VALUES (?, ?, ?, ?, ?)', (banking_number, 100, datetime.now(), 'Initial Deposit', 100))
+            conn.execute('INSERT INTO userBank (bankingNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', (banking_number, datetime.now().strftime('%d-%m-%Y'), 'Initial Deposit', 100))
             
             conn.commit()
         except sqlite3.IntegrityError:
-            return 'User already exists'
+            conn.close()
+            return "<script>alert('User already exists'); window.location.href='/signup';</script>"
+        
         conn.close()
         session['email'] = email
-        return redirect(url_for('home'))
+        return "<script>alert('You have created your account'); window.location.href='/login';</script>"
     return render_template('signup.html')
 
 def generate_banking_number():
@@ -105,9 +98,9 @@ def bank():
             amount = int(data['amount'])
             transaction_type = data['transaction_type']
             
-            if transaction_type == 'deposit':
+            if transaction_type == 'Deposit':
                 new_total_money = user['totalMoney'] + amount
-            elif transaction_type == 'withdraw':
+            elif transaction_type == 'Withdraw':
                 new_total_money = user['totalMoney'] - amount
             else:
                 return {'success': False, 'message': 'Invalid transaction type'}, 400
@@ -118,7 +111,7 @@ def bank():
                 
                 # Insert new transaction record into userBank table
                 conn.execute('INSERT INTO userBank (bankingNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', 
-                            (user['bankingNumber'], datetime.now().strftime('%Y-%m-%d %H:%M:%S'), transaction_type, amount))
+                            (user['bankingNumber'], datetime.now().strftime('%d-%m-%Y'), transaction_type, amount))
                 conn.commit()
             
             return {'success': True}

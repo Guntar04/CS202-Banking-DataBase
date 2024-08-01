@@ -5,28 +5,26 @@
     <title>Profile</title>
 </head>
 <body>
-</head>
-<nav>
-    <ul>
-        <li> NexBank </li>
-        <li><a href="/home">Home</a></li>
-        <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
-    </ul>
-</nav>
-<body>
+    <nav>
+        <ul>
+            <li><strong>NexBank</strong></li>
+            <li class="vertical-line"></li> <!-- Vertical Line Here -->
+            <li><a href="/home">Home</a></li>
+            <li><a href="/bank">Personal Bank</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
+        </ul>
+    </nav>
     <div class="contentBody">
-        <img src="/images/profile.png" alt="Profile Image" style="float: left; margin-right: 10px;">
-        <h1>Profile</h1>
+        <img src="{{ url_for('static', filename='images/profile.png') }}" alt="Profile Image" style="float: left; margin-right: 10px;">
+        <h1>{{ firstName }} {{ lastName }}'s Profile</h1>
         <hr>
         <div class="content">
-            <p>First Name: {{ firstName }}</p>
-            <p>Last Name: {{ lastName }}</p>
-            <p>Email: {{ email }}</p>
+            <p><strong>First Name:</strong> {{ firstName }}</p>
+            <p><strong>Last Name:</strong> {{ lastName }}</p>
+            <p><strong>Email Address:</strong> {{ email }}</p>
         </div>
     </div>
-    
-</body>
-
 </body>
 
 <style>
@@ -46,17 +44,33 @@
     }
 
     li {
-        margin-right: 20px;
+        margin-right: 50px;
     }
 
     a {
         color: white;
         text-decoration: none;
     }
+
+    nav ul li.vertical-line::after {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 100%;
+        background-color: white; /* Adjust color as needed */
+        margin: 0 10px 0 0;
+        border-radius: 10%;
+    }
+
     body {
-        background-color: #0034a3;
+        background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
+        background-size: cover;
         font-family: Arial, sans-serif;
         color: white;
+    }
+
+    h1 {
+        font-size: 250%;
     }
 
     .line {
@@ -70,9 +84,22 @@
         margin: 0 auto; 
         width: 66.67%;
     }
+
+    .content {
+        align-content: center;
+        text-align: left;
+        width: 80%;
+        margin: 0 auto;
+    }
     .content p{
         font-size: 150%;
         padding: 20px 30px 20px 30px;
+    }
+
+    img {
+        width: 15%;
+        height: auto;
+        border-radius: 50%;
     }
 </style>
 </html>

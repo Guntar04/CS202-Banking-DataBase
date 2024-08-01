@@ -8,16 +8,16 @@
 <body>
     <nav>
         <ul>
-            <li> NexBank </li>
+            <li><strong>NexBank</strong></li>
+            <li class="vertical-line"></li> <!-- Vertical Line Here -->
+            <li><a href="/home">Home</a></li>
             <li><a href="/bank">Personal Bank</a></li>
             <li><a href="/profile">Profile</a></li>
             <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
         </ul>
     </nav>
     <div class="contentBody">
-        <h1>Welcome to NexBank's Banking System</h1> <br><br>
-        <h2>Saving | Deposit | Account</h2>
-        <hr>
+        <img src="{{ url_for('static', filename='images/banner.png') }}" alt="Profile Image" style="float: left; margin-right: 10px;">
         <div class="content">
             <div class="box" style="background-color: #3c72d6;">
             <h2>Loan Scheme</h2>
@@ -37,14 +37,36 @@
         </div>
     </div>
     <footer>
-        <p>&copy; NexBank 2021</p>
+        <div class="footer-section1">
+            <p><strong>NexBank</strong></p>
+            <p>Honors Your Trust</p>
+        </div>
+        <div class="footer-section2">
+            <p><strong>Head office:</strong> 12th Avenue, Suite 3B, Sector 4,
+                Midtown, Tokyo-5678</p>
+            <p><strong>Landline:</strong> 931-472-9305</p>
+            <p><strong>Phone:</strong> (+829) 123456789</p>
+            <p><strong>Email:</strong> contact@nexbank.com</p>
+        </div>
+        <div class="footer-section3">
+            <h3>Our Mission Statement</h3>
+            <h4>To deliver great personal service and the best 
+                finacial products to our customers and the local
+                communities we serve.</h4>
+            <p>Follow Us: 
+                <a href="#">Facebook</a> | 
+                <a href="#">Twitter</a> | 
+                <a href="#">LinkedIn</a>
+            </p>
+        </div>
+    </footer>
     </body>
 
     <style>
     
     nav {
         background-color: rgb(17, 108, 211);
-        border-radius: 5px;
+
     }
 
     ul {
@@ -57,13 +79,24 @@
     }
 
     li {
-        margin-right: 20px;
+        margin-right: 50px;
     }
 
     a {
         color: white;
         text-decoration: none;
     }
+
+    nav ul li.vertical-line::after {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 100%;
+        background-color: white; /* Adjust color as needed */
+        margin: 0 10px 0 0;
+        border-radius: 10%;
+    }
+
     body {
         background-color: #ffffff;
         font-family: Arial, sans-serif;
@@ -72,25 +105,35 @@
 
     .contentBody {
         background-color: #202020c2;
-        padding: 20px;
-        border-radius: 5px;
         margin: 0 auto; 
+        display: flex;
         text-align: center;
+        flex-direction: column
+    }
+    .content {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        flex-direction: row;
     }
     .content p{
-        font-size: 150%;
+        font-size: 200%;
         padding: 20px 30px 20px 30px;
     }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
     .box {
         display: inline-block;
-        width: 20%;
-        padding: 1%;
-        margin: 20px;
+        padding: 5%;
         text-align: center;
         border-radius: 5px;
-        }
+    }
 
-        .fake-button {
+    .fake-button {
         background-color: #c0a71a;
         color: white;
         font-size: 150%;
@@ -101,11 +144,44 @@
         }
 
     footer {
-        background-color: rgb(56, 131, 216);
+        display: flex;
+        justify-content: space-between;
+        height: auto;
+        background-color: #202020;
+        color: white;
+    }
+
+    .footer-section1, .footer-section3 {
+        flex: 1;
+        padding: 3%;
+        display: flex;
         text-align: center;
-        padding: 80px;
-        border-radius: 5px;
-        margin-top: 30px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-section2{
+        font-size: 120%;
+        padding: 3%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-section1 p {
+        font-size: 200%;
+        margin: 15px;
+    }
+
+    .footer-section a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .footer-section a:hover {
+        text-decoration: underline;
     }
 </style>
 </html>
