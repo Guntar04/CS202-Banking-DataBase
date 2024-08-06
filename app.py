@@ -11,11 +11,9 @@ app.secret_key = 'your_secret_key'
 
 def get_db_connection():
     try:
-        # Get the directory of the current script
         script_dir = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(script_dir, "database", "bankingDB.db")
         
-        # Check if the database file exists
         if not os.path.exists(db_path):
             raise Exception(f"Database file not found at {db_path}")
         
@@ -25,6 +23,8 @@ def get_db_connection():
         return conn
     except sqlite3.Error as e:
         raise Exception(f"Error connecting to the database: {e}")
+    except Exception as e:
+        raise Exception(f"General error: {e}") 
 
 @app.route('/')
 def index():
