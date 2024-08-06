@@ -4,13 +4,22 @@ import sqlite3
 import random
 import string  
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 def get_db_connection():
     try:
-        conn = sqlite3.connect("D:/Uni Work/GitHub/CS202-Banking-DataBase/database/bankingDB.db")
+        # Get the directory of the current script
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(script_dir, "database", "bankingDB.db")
+        
+        # Check if the database file exists
+        if not os.path.exists(db_path):
+            raise Exception(f"Database file not found at {db_path}")
+        
+        conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
         conn.commit()
         return conn
