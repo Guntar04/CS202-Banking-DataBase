@@ -127,7 +127,6 @@ def create_account():
     finally:
         conn.close()
 
-
 def generate_banking_number():
     # Generate a random 10-digit banking number
     banking_number = int(''.join(random.choices(string.digits, k=10)))
@@ -138,7 +137,6 @@ def home():
     if 'email' not in session:
         return redirect(url_for('login'))
     return render_template('home.html')
-
 
 @app.route('/bank', methods=['GET', 'POST'])
 def bank():
@@ -188,16 +186,34 @@ def bank():
         
         return {'success': True}
 
-
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'email' not in session:
         return redirect(url_for('login'))
-    
-    with get_db_connection() as conn:
+
+    conn = get_db_connection()
+
+    if request.method == 'POST':
+        # Handle profile update
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        email = request.form['email']
+
+        conn.execute('UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE email = ?', 
+                     (firstName, lastName, email, session['email']))
+        conn.commit()
+        conn.close()
+
+        # Update session email if it was changed
+        session['email'] = email
+
+        return redirect(url_for('profile'))
+
+    else:
+        # Display profile
         user = conn.execute('SELECT * FROM users WHERE email = ?', (session['email'],)).fetchone()
-    
-    return render_template('profile.html', email=session['email'], firstName=user['firstName'], lastName=user['lastName'])
+        conn.close()
+        return render_template('profile.html', email=session['email'], firstName=user['firstName'], lastName=user['lastName'])
 
 @app.route('/contact')
 def contact():
