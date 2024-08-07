@@ -3,6 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <title>Bank</title>
+    <style>
+        nav {
+            background-color: rgb(17, 108, 211);
+            border-radius: 5px;
+        }
+
+        ul {
+            display: flex;
+            list-style-type: none;
+            padding: 2% 0% 2% 3%;
+            font-size: 200%;
+            color: white;
+            margin: 0%;
+        }
+
+        li {
+            margin-right: 50px;
+            cursor: pointer; /* Change cursor to pointer to indicate clickability */
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul li.vertical-line::after {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 100%;
+            background-color: white; /* Adjust color as needed */
+            margin: 0 10px 0 0;
+            border-radius: 10%;
+        }
+
+        body {
+            background-color: #0034a3;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: center; /* Center the content horizontally */
+            padding-top: 80px; /* Added padding to move content away from the nav bar */
+            gap: 20px; /* Add some space between white-box and contentBody */
+        }
+
+        .contentBody {
+            background-color: #202020c2;
+            padding: 20px;
+            border-radius: 5px;
+            width: 66%;
+            transition: all 0.3s ease; /* Smooth transition for content change */
+        }
+
+        .white-box {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 20%; /* Adjust width as needed */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add some shadow for better visibility */
+        }
+
+        .white-box h2 {
+            margin-top: 0;
+            border-bottom: 2px solid black;
+            padding-bottom: 10px;
+            color: black; /* Ensure the header text is black */
+        }
+
+        .white-box ul {
+            list-style-type: none;
+            padding: 0;
+            color: black; /* Ensure the list text is black */
+        }
+
+        .white-box ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            font-size: 25px;
+        }
+
+        .white-box ul li:last-child {
+            border-bottom: none;
+        }
+
+        .topLine {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
+
+        .topLine button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ffffff;
+            background-color: #3296b4;
+            font-size: 150%;
+            color: white;
+            border-radius: 50px;
+            align-self: center;
+            margin-left: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            margin-left: auto;
+            padding: 10;
+        }
+
+        .tableContainer {
+            display: flex;
+            justify-content: center;
+            font-size: 200%;
+            width: 100%;
+            margin: auto;
+            background-color: #ffffff;
+        }
+
+        .tableContainer tr {
+            color: black;
+        }
+
+        hr {
+            border: 1px solid black;
+            width: 100%;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        .account {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .account p {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -16,199 +163,229 @@
             <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
         </ul>
     </nav>
-<div class="contentBody">
-    <div class="topLine">
-        <h1>Your Banking Information</h1>
-        <div class="buttons">
-            <button onclick="deposit()">Deposit</button>
-            <button onclick="withdraw()">Withdraw</button>
+    <div class="content-wrapper">
+        <div class="white-box">
+            <h2>Favourites</h2>
+            <ul>
+                <li id="my-accounts">My Accounts</li>
+            </ul>
+            <ul>
+                <li id="transaction-history">Transaction History</li>
+            </ul>
         </div>
-        
-    </div>
-    <hr>
-    <div class="tableContainer">
-        <div class="table">
-            <table>
-                <colgroup>
-                    <col style="width: 33%;">
-                    <col style="width: 33%;">
-                    <col style="width: 33%;">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th><br>Type of Transaction</th>
-                        <th><br>Date of Transaction</th>
-                        <th><br>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for transaction in transactions %}
-                    <tr>
-                        <td> <hr>{{ transaction.transType }}</td>
-                        <td> <hr>{{ transaction.transDate }}</td>
-                        <td> <hr>{{ transaction.transAmount }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="contentBody">
+            <div class="topLine">
+                <h1>Your Banking Information</h1>
+                <div class="buttons">
+                    <button onclick="deposit()">Deposit</button>
+                    <button onclick="withdraw()">Withdraw</button>
+                </div>
+            </div>
+            <hr>
+            <div class="tableContainer">
+                <div class="table">
+                    <table>
+                        <colgroup>
+                            <col style="width: 33%;">
+                            <col style="width: 33%;">
+                            <col style="width: 33%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th><br>Type of Transaction</th>
+                                <th><br>Date of Transaction</th>
+                                <th><br>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+                                <td> <hr>{{ transaction.transType }}</td>
+                                <td> <hr>{{ transaction.transDate }}</td>
+                                <td> <hr>{{ transaction.transAmount }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h1>Account Balance: {{ accountBalance }}</h1>
         </div>
     </div>
-    <h1>Account Balance: {{ totalMoney }}</h1>
-</div>
 
-<script>
-    function deposit() {
-        var amount = prompt("Enter the amount to deposit:");
-        fetch('/bank', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                amount: amount,
-                transaction_type: 'Deposit'
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error: Unable to process the transaction.');
+    <script>
+        document.getElementById('my-accounts').addEventListener('click', function() {
+    fetch('/my_accounts')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let accountsContent = '<h1>My Accounts</h1>';
+            data.accounts.forEach(account => {
+                accountsContent += `
+                    <div class="account">
+                        <p>Account Number: ${account.accountNumber}</p>
+                        <p>Account Balance: $${account.accountBalance.toFixed(2)}</p>
+                    </div>
+                    <hr>
+                `;
+            });
+            accountsContent += '<button onclick="createNewAccount()">Create New Account</button>';
+            document.querySelector('.contentBody').innerHTML = accountsContent;
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error: Unable to fetch accounts.');
+    });
+});
+
+
+        document.getElementById('transaction-history').addEventListener('click', function() {
+            document.querySelector('.contentBody').innerHTML = `
+                <div class="topLine">
+                    <h1>Your Banking Information</h1>
+                    <div class="buttons">
+                        <button onclick="deposit()">Deposit</button>
+                        <button onclick="withdraw()">Withdraw</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="tableContainer">
+                    <div class="table">
+                        <table>
+                            <colgroup>
+                                <col style="width: 33%;">
+                                <col style="width: 33%;">
+                                <col style="width: 33%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th><br>Type of Transaction</th>
+                                    <th><br>Date of Transaction</th>
+                                    <th><br>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <td> <hr>{{ transaction.transType }}</td>
+                                    <td> <hr>{{ transaction.transDate }}</td>
+                                    <td> <hr>{{ transaction.transAmount }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <h1>Account Balance: {{ accountBalance }}</h1>
+            `;
         });
-    }
 
-    function withdraw() {
-        var amount = prompt("Enter the amount to withdraw:");
-        fetch('/bank', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                amount: amount,
-                transaction_type: 'Withdraw'
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + data.message);
+        function createNewAccount() {
+            if (confirm("Are you sure you want to create a new bank account?")) {
+                fetch('/create_account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('New account created successfully.');
+                        fetch('/my_accounts')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                let accountsContent = '<h1>My Accounts</h1>';
+                                data.accounts.forEach(account => {
+                                    accountsContent += `
+                                        <div class="account">
+                                            <p>Account Number: ${account.accountNumber}</p>
+                                            <p>Account Balance: $${account.accountBalance.toFixed(2)}</p>
+                                        </div>
+                                        <hr>
+                                    `;
+                                });
+                                accountsContent += '<button onclick="createNewAccount()">Create New Account</button>';
+                                document.querySelector('.contentBody').innerHTML = accountsContent;
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error: Unable to fetch accounts.');
+                        });
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error: Unable to create account.');
+                });
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error: Unable to process the transaction.');
-        });
-    }
-</script>
+        }
 
-<style>
-    nav {
-        background-color: rgb(17, 108, 211);
-        border-radius: 5px;
-    }
+        function deposit() {
+            var amount = prompt("Enter the amount to deposit:");
+            var accountNumber = prompt("Enter your account number:");
+            fetch('/bank', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    transaction_type: 'Deposit',
+                    accountNumber: accountNumber
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error: Unable to process the transaction.');
+            });
+        }
 
-    ul {
-        display: flex;
-        list-style-type: none;
-        padding: 2% 0% 2% 3%;
-        font-size: 200%;
-        color: white;
-        margin: 0%;
-    }
-
-    li {
-        margin-right: 50px;
-    }
-
-    a {
-        color: white;
-        text-decoration: none;
-    }
-
-    nav ul li.vertical-line::after {
-        content: "";
-        display: inline-block;
-        width: 8px;
-        height: 100%;
-        background-color: white; /* Adjust color as needed */
-        margin: 0 10px 0 0;
-        border-radius: 10%;
-    }
-
-    body {
-        background-color: #0034a3;
-        font-family: Arial, sans-serif;
-        color: white;
-    }
-
-    .topLine {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-    }
-
-    .topLine button {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ffffff;
-        background-color: #3296b4;
-        font-size: 150%;
-        color: white;
-        border-radius: 50px;
-        align-self: center;
-        margin-left: 20px;
-    }
-
-    .buttons {
-        display: flex;
-        margin-left: auto;
-        padding: 10;
-    }
-
-    .tableContainer {
-        display: flex;
-        justify-content: center;
-        font-size: 200%;
-        width: 70%;
-        margin: auto;
-        background-color: #ffffff;
-    }
-
-    .tableContainer tr {
-        color: black;
-    }
-
-    hr {
-        border: 1px solid black;
-        width: 100%;
-    }
-
-    .contentBody {
-        background-color: #202020c2;
-        padding: 20px;
-        border-radius: 5px;
-        margin: 0 auto; 
-        width: 66.67%;
-        
-    }
-
-    .content p {
-        font-size: 150%;
-        padding: 20px 30px 20px 30px;
-    }
-
-    th{
-        text-align: left;
-    }
-</style>
+        function withdraw() {
+            var amount = prompt("Enter the amount to withdraw:");
+            var accountNumber = prompt("Enter your account number:");
+            fetch('/bank', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    transaction_type: 'Withdraw',
+                    accountNumber: accountNumber
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error: Unable to process the transaction.');
+            });
+        }
+    </script>
 </body>
 </html>
