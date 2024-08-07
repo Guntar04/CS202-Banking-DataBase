@@ -138,19 +138,21 @@ def home():
         return redirect(url_for('login'))
     return render_template('home.html')
 
+
 @app.route('/bank', methods=['GET', 'POST'])
 def bank():
     if 'email' not in session:
         return redirect(url_for('login'))
-    
+
     conn = get_db_connection()
-    
+
     if request.method == 'GET':
         user = conn.execute('SELECT * FROM users WHERE email = ?', (session['email'],)).fetchone()
         accounts = conn.execute('SELECT * FROM accounts WHERE user_id = ?', (user['user_id'],)).fetchall()
         transactions = conn.execute('SELECT * FROM userBank WHERE accountNumber IN (SELECT accountNumber FROM accounts WHERE user_id = ?)', (user['user_id'],)).fetchall()
+        account_balance = sum(account['accountBalance'] for account in accounts)  # Compute total balance
         conn.close()
-        return render_template('bank.html', accounts=accounts, transactions=transactions)
+        return render_template('bank.html', accounts=accounts, transactions=transactions, accountBalance=account_balance)
 
     if request.method == 'POST':
         data = request.get_json()
@@ -185,6 +187,7 @@ def bank():
         conn.close()
         
         return {'success': True}
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():

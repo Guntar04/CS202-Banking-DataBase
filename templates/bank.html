@@ -155,7 +155,7 @@
     <nav>
         <ul>
             <li><strong>NexBank</strong></li>
-            <li class="vertical-line"></li> <!-- Vertical Line Here -->
+            <li class="vertical-line"></li>
             <li><a href="/home">Home</a></li>
             <li><a href="/bank">Personal Bank</a></li>
             <li><a href="/profile">Profile</a></li>
@@ -186,12 +186,14 @@
                 <div class="table">
                     <table>
                         <colgroup>
-                            <col style="width: 33%;">
-                            <col style="width: 33%;">
-                            <col style="width: 33%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
                         </colgroup>
                         <thead>
                             <tr>
+                                <th><br>Bank Account</th>
                                 <th><br>Type of Transaction</th>
                                 <th><br>Date of Transaction</th>
                                 <th><br>Amount</th>
@@ -200,6 +202,7 @@
                         <tbody>
                             {% for transaction in transactions %}
                             <tr>
+                                <td> <hr>{{ transaction.accountNumber }}</td>
                                 <td> <hr>{{ transaction.transType }}</td>
                                 <td> <hr>{{ transaction.transDate }}</td>
                                 <td> <hr>{{ transaction.transAmount }}</td>
@@ -209,38 +212,36 @@
                     </table>
                 </div>
             </div>
-            <h1>Account Balance: {{ accountBalance }}</h1>
         </div>
     </div>
 
     <script>
         document.getElementById('my-accounts').addEventListener('click', function() {
-    fetch('/my_accounts')
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            let accountsContent = '<h1>My Accounts</h1>';
-            data.accounts.forEach(account => {
-                accountsContent += `
-                    <div class="account">
-                        <p>Account Number: ${account.accountNumber}</p>
-                        <p>Account Balance: $${account.accountBalance.toFixed(2)}</p>
-                    </div>
-                    <hr>
-                `;
+            fetch('/my_accounts')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let accountsContent = '<h1>My Accounts</h1>';
+                    data.accounts.forEach(account => {
+                        accountsContent += `
+                            <div class="account">
+                                <p>Account Number: ${account.accountNumber}</p>
+                                <p>Account Balance: $${account.accountBalance.toFixed(2)}</p>
+                            </div>
+                            <hr>
+                        `;
+                    });
+                    accountsContent += '<button onclick="createNewAccount()">Create New Account</button>';
+                    document.querySelector('.contentBody').innerHTML = accountsContent;
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error: Unable to fetch accounts.');
             });
-            accountsContent += '<button onclick="createNewAccount()">Create New Account</button>';
-            document.querySelector('.contentBody').innerHTML = accountsContent;
-        } else {
-            alert('Error: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error: Unable to fetch accounts.');
-    });
-});
-
+        });
 
         document.getElementById('transaction-history').addEventListener('click', function() {
             document.querySelector('.contentBody').innerHTML = `
@@ -256,12 +257,14 @@
                     <div class="table">
                         <table>
                             <colgroup>
-                                <col style="width: 33%;">
-                                <col style="width: 33%;">
-                                <col style="width: 33%;">
+                                <col style="width: 25%;">
+                                <col style="width: 25%;">
+                                <col style="width: 25%;">
+                                <col style="width: 25%;">
                             </colgroup>
                             <thead>
                                 <tr>
+                                    <th><br>Bank Account</th>
                                     <th><br>Type of Transaction</th>
                                     <th><br>Date of Transaction</th>
                                     <th><br>Amount</th>
@@ -270,6 +273,7 @@
                             <tbody>
                                 {% for transaction in transactions %}
                                 <tr>
+                                    <td> <hr>{{ transaction.accountNumber }}</td>
                                     <td> <hr>{{ transaction.transType }}</td>
                                     <td> <hr>{{ transaction.transDate }}</td>
                                     <td> <hr>{{ transaction.transAmount }}</td>
@@ -279,7 +283,6 @@
                         </table>
                     </div>
                 </div>
-                <h1>Account Balance: {{ accountBalance }}</h1>
             `;
         });
 
