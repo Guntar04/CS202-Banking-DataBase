@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import random
-import string  
+import string
 from datetime import datetime
 import os
 
@@ -24,7 +24,26 @@ def get_db_connection():
     except sqlite3.Error as e:
         raise Exception(f"Error connecting to the database: {e}")
     except Exception as e:
-        raise Exception(f"General error: {e}") 
+        raise Exception(f"General error: {e}")
+    
+@app.route('/submit_contact', methods=['POST'])
+def submit_contact():
+    # Extract form data
+    name = request.form.get('name')
+    email = request.form.get('email')
+    phone = request.form.get('phone')
+    message = request.form.get('message')
+    
+    # For demonstration, let's just print the data to the console
+    print(f"Name: {name}")
+    print(f"Email: {email}")
+    print(f"Phone: {phone}")
+    print(f"Message: {message}")
+
+    # You could process the data, save it to the database, or send an email here
+
+    return redirect(url_for('contact'))  # Redirect back to the contact page or another page
+
 
 @app.route('/')
 def index():
@@ -139,11 +158,15 @@ def profile():
     
     return render_template('profile.html', email=session['email'], firstName=user['firstName'], lastName=user['lastName'])
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 @app.route('/logout')
 def logout():
     session.pop('email', None)
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    app.secret_key = 'your_secret_key'
     app.run(debug=True)
+
