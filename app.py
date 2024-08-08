@@ -187,6 +187,64 @@ def bank():
         conn.close()
         
         return {'success': True}
+    
+@app.route('/get_transactions')
+def get_transactions():
+    if 'email' not in session:
+        return jsonify({'success': False, 'message': 'User not logged in'}), 401
+    
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE email = ?', (session['email'],)).fetchone()
+    transactions = conn.execute('SELECT * FROM userBank WHERE accountNumber IN (SELECT accountNumber FROM accounts WHERE user_id = ?)', (user['user_id'],)).fetchall()
+    conn.close()
+    
+    return jsonify({'success': True, 'transactions': [dict(transaction) for transaction in transactions]})
+
+
+    
+@app.route('/transfer_funds', methods=['POST'])
+def transfer_funds():
+    if 'email' not in session:
+        return jsonify({'success': False, 'message': 'User not logged in'}), 401
+
+    data = request.get_json()
+    from_account = data.get('fromAccount')
+    to_account = data.get('toAccount')
+    amount = float(data.get('amount'))
+
+    if not from_account or not to_account or not amount:
+        return jsonify({'success': False, 'message': 'Invalid input'}), 400
+
+    try:
+        conn = get_db_connection()
+        conn.execute('BEGIN')
+
+        from_account_balance = conn.execute('SELECT accountBalance FROM accounts WHERE accountNumber = ?', (from_account,)).fetchone()
+        to_account_balance = conn.execute('SELECT accountBalance FROM accounts WHERE accountNumber = ?', (to_account,)).fetchone()
+
+        if not from_account_balance or not to_account_balance:
+            return jsonify({'success': False, 'message': 'One or both accounts not found'}), 404
+
+        if from_account_balance['accountBalance'] < amount:
+            return jsonify({'success': False, 'message': 'Insufficient funds in from account'}), 400
+
+        new_from_balance = from_account_balance['accountBalance'] - amount
+        new_to_balance = to_account_balance['accountBalance'] + amount
+
+        conn.execute('UPDATE accounts SET accountBalance = ? WHERE accountNumber = ?', (new_from_balance, from_account))
+        conn.execute('UPDATE accounts SET accountBalance = ? WHERE accountNumber = ?', (new_to_balance, to_account))
+
+        trans_date = datetime.now().strftime('%d-%m-%Y')
+        conn.execute('INSERT INTO userBank (accountNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', (from_account, trans_date, 'Transfer Out', -amount))
+        conn.execute('INSERT INTO userBank (accountNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', (to_account, trans_date, 'Transfer In', amount))
+
+        conn.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        conn.rollback()
+        return jsonify({'success': False, 'message': str(e)}), 500
+    finally:
+        conn.close()
 
 
 @app.route('/profile', methods=['GET', 'POST'])
