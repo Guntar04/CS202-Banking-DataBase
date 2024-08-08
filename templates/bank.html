@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <title>Bank</title>
     <style>
+
         nav {
             background-color: rgb(17, 108, 211);
             border-radius: 5px;
+            position: fixed; /* Fixes the navigation bar to the viewport */
+            top: 0; /* Position it at the top */
+            left: 0; /* Align it to the left */
+            width: 100%; /* Make it span the entire width */
+            z-index: 1000; /* Ensure it stays on top of other elements */
         }
 
         ul {
@@ -15,13 +21,14 @@
             padding: 2% 0% 2% 3%;
             font-size: 200%;
             color: white;
-            margin: 0%;
+            margin: 0;
         }
 
         li {
             margin-right: 50px;
             cursor: pointer; /* Change cursor to pointer to indicate clickability */
         }
+
 
         a {
             color: white;
@@ -42,20 +49,22 @@
             background-color: #0034a3;
             font-family: Arial, sans-serif;
             color: white;
-        }
+            margin: 0; /* Remove default margin */
+            padding-top: 60px; /* Add padding equal to or greater than the nav height to avoid overlap */
+            }
 
         .content-wrapper {
             display: flex;
-            justify-content: center; /* Center the content horizontally */
-            padding-top: 80px; /* Added padding to move content away from the nav bar */
-            gap: 20px; /* Add some space between white-box and contentBody */
-        }
+            padding-top: 70px; /* Added padding to move content away from the nav bar */
+            gap: 20px; /* Add space between .white-box and .contentBody */
+            }
 
         .contentBody {
             background-color: #202020c2;
             padding: 20px;
             border-radius: 5px;
             width: 66%;
+            margin-left: 27%; /* Space to move it over, adjust as needed */
             transition: all 0.3s ease; /* Smooth transition for content change */
         }
 
@@ -63,9 +72,14 @@
             background-color: #ffffff;
             padding: 20px;
             border-radius: 5px;
-            width: 20%; /* Adjust width as needed */
+            width: 220px; /* Adjust width as needed */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add some shadow for better visibility */
-        }
+            position: fixed;
+            top: 130px; /* Adjust top positioning as needed */
+            left: 100px; /* Adjust left positioning as needed */
+            height: calc(90vh - 120px); /* Make sure the height is full height minus the top */
+            }
+
 
         .white-box h2 {
             margin-top: 0;
@@ -115,6 +129,18 @@
             padding: 10;
         }
 
+        .button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ffffff;
+            background-color: #3296b4;
+            font-size: 150%;
+            color: white;
+            border-radius: 50px;
+            align-self: center;
+            
+        }
+
         .tableContainer {
             display: flex;
             justify-content: center;
@@ -149,6 +175,97 @@
         .account p {
             margin: 0;
         }
+
+        /* Container for the entire transfer form */
+        .transfer-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: white;
+        }
+
+        /* Styling for each section */
+        .section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header of each section */
+        .section-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3296b4;
+        }
+
+        /* Horizontal line styling */
+        .section-line {
+            border: none;
+            border-top: 2px solid darkblue;
+            margin: 10px 0;
+            width:70%;
+        }
+
+        /* Dropdown styling */
+        .account-dropdown {
+            font-size: 16px;
+            padding: 10px;
+            width: 50%;
+        }
+
+        /* Account balance styling */
+        .account-balance {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #3296b4;
+        }
+
+        /* Amount input field styling */
+        .amount-input {
+            font-size: 16px;
+            padding: 10px;
+            width: 50%;
+            margin-top: 10px;
+        }
+
+        .text{
+            color:#3296b4;
+        }
+
+
+        /* Confirm button styling */
+        .confirm-button {
+            padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid darkblue;
+                    background-color: #3296b4;
+                    font-size: 150%;
+                    color: white;
+                    border-radius: 50px;
+                    align-self: center;
+                    margin-right: 90%;
+        }
+
+        @media (max-width: 768px) {
+    .white-box {
+        width: 100%;
+        left: 0;
+        top: 70px;
+        height: auto; /* Adjust height as needed */
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .contentBody {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+
+
     </style>
 </head>
 <body>
@@ -165,17 +282,18 @@
     </nav>
     <div class="content-wrapper">
         <div class="white-box">
-            <h2>Favourites</h2>
-            <ul>
-                <li id="my-accounts">My Accounts</li>
-            </ul>
-            <ul>
-                <li id="transaction-history">Transaction History</li>
-            </ul>
-            <ul>
-                <li id="transfer-funds">Transfer Funds</li>
-            </ul>
-        </div>
+            <div></div>
+                <h2>Favourites</h2>
+                <ul>
+                    <li id="my-accounts">My Accounts</li>
+                </ul>
+                <ul>
+                    <li id="transaction-history">Transaction History</li>
+                </ul>
+                <ul>
+                    <li id="transfer-funds">Transfer Funds</li>
+                </ul>
+            </div>
         <div class="contentBody">
             <div class="topLine">
                 <h1>Your Banking Information</h1>
@@ -235,7 +353,7 @@
                             <hr>
                         `;
                     });
-                    accountsContent += '<button onclick="createNewAccount()">Create New Account</button>';
+                    accountsContent += '<button class="button" onclick="createNewAccount()">Create New Account</button>';
                     document.querySelector('.contentBody').innerHTML = accountsContent;
                 } else {
                     alert('Error: ' + data.message);
@@ -304,7 +422,7 @@
 });
 
 
-        document.getElementById('transfer-funds').addEventListener('click', function() {
+document.getElementById('transfer-funds').addEventListener('click', function() {
     fetch('/my_accounts')
     .then(response => response.json())
     .then(data => {
@@ -313,43 +431,59 @@
                 <div class="topLine">
                     <h1>Transfer Funds</h1>
                 </div>
-                <hr>
-                <div class="tableContainer">
-                    <div class="table">
-                        <form id="transfer-form">
-                            <label for="from-account">From:</label>
-                            <select id="from-account" name="from-account">
-                                <option value="">Select an account</option>`;
+                <div class="transfer-container">
+                    <div class="section">
+                        <div class="section-header">From</div>
+                        <hr class="section-line">
+                        <select id="from-account" name="from-account" class="account-dropdown">
+                            <option value="">Select an account</option>`;
             
             data.accounts.forEach(account => {
                 transferContent += `
-                    <option value="${account.accountNumber}">Account Number: ${account.accountNumber}</option>`;
+                    <option value="${account.accountNumber}" data-balance="${account.accountBalance}">Account Number: ${account.accountNumber}</option>`;
             });
 
             transferContent += `
-                            </select>
-                            <br>
-                            <label for="to-account">To:</label>
-                            <select id="to-account" name="to-account">
-                                <option value="">Select an account</option>`;
+                        </select>
+                        <div id="from-balance" class="account-balance">Balance: $0.00</div>
+                    </div>
+                    <hr class="section-line">
+                    <div class="section">
+                        <div class="section-header">To</div>
+                        <hr class="section-line">
+                        <select id="to-account" name="to-account" class="account-dropdown">
+                            <option value="">Select an account</option>`;
             
             data.accounts.forEach(account => {
                 transferContent += `
-                    <option value="${account.accountNumber}">Account Number: ${account.accountNumber}</option>`;
+                    <option value="${account.accountNumber}" data-balance="${account.accountBalance}">Account Number: ${account.accountNumber}</option>`;
             });
 
             transferContent += `
-                            </select>
-                            <br>
+                        </select>
+                        <div id="to-balance" class="account-balance">Balance: $0.00</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-header">Transfer Details</div>
+                        <hr class="section-line">
+                        <div class="text">
                             <label for="amount">Amount:</label>
-                            <input type="number" id="amount" name="amount" min="0" step="0.01">
-                            <br>
-                            <button type="button" onclick="transferFunds()">Transfer</button>
-                        </form>
+                        </div>
+                        <input type="number" id="amount" name="amount" min="0" step="0.01" class="amount-input">
+                        <hr class="section-line">
+                        <button type="button" onclick="transferFunds()" class="confirm-button">Transfer</button>
                     </div>
                 </div>`;
 
             document.querySelector('.contentBody').innerHTML = transferContent;
+
+            // Update balance display when account is selected
+            document.getElementById('from-account').addEventListener('change', function() {
+                updateBalance('from', this.options[this.selectedIndex].getAttribute('data-balance'));
+            });
+            document.getElementById('to-account').addEventListener('change', function() {
+                updateBalance('to', this.options[this.selectedIndex].getAttribute('data-balance'));
+            });
         } else {
             alert('Error: ' + data.message);
         }
@@ -359,6 +493,10 @@
         alert('Error: Unable to fetch accounts.');
     });
 });
+
+function updateBalance(type, balance) {
+    document.getElementById(`${type}-balance`).innerText = `Balance: $${balance}`;
+}
 
 function transferFunds() {
     const fromAccount = document.getElementById('from-account').value;
@@ -396,6 +534,7 @@ function transferFunds() {
         alert('Error: Unable to transfer funds.');
     });
 }
+
 
 
 
