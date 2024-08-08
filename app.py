@@ -7,64 +7,70 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'your_secret_key' 
 
 def get_db_connection():
+    """Establishes and returns a connection to the SQLite database."""
     try:
+        # Build the path to the database file
         script_dir = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(script_dir, "database", "bankingDB.db")
         
+        # Check if the database file exists
         if not os.path.exists(db_path):
-            raise Exception(f"Database file not found at {db_path}")
+            raise FileNotFoundError(f"Database file not found at {db_path}")
         
+        # Connect to the database
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
-        conn.commit()
         return conn
     except sqlite3.Error as e:
-        raise Exception(f"Error connecting to the database: {e}")
+        raise RuntimeError(f"Error connecting to the database: {e}")
     except Exception as e:
-        raise Exception(f"General error: {e}")
+        raise RuntimeError(f"General error: {e}")
 
 @app.route('/submit_contact', methods=['POST'])
 def submit_contact():
+    """Handles contact form submissions."""
     # Extract form data
     name = request.form.get('name')
     email = request.form.get('email')
     phone = request.form.get('phone')
     message = request.form.get('message')
     
-    # For demonstration, let's just print the data to the console
-    print(f"Name: {name}")
-    print(f"Email: {email}")
-    print(f"Phone: {phone}")
-    print(f"Message: {message}")
+    # For demonstration, print the data to the console
+    print(f"Name: {name}, Email: {email}, Phone: {phone}, Message: {message}")
 
-    # You could process the data, save it to the database, or send an email here
-
-    return redirect(url_for('contact'))  # Redirect back to the contact page or another page
+    return redirect(url_for('contact'))
 
 @app.route('/')
 def index():
+    """Redirects user to home or login based on session status."""
     if 'email' in session:
         return redirect(url_for('home'))
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Handles user login."""
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        
         with get_db_connection() as conn:
             user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        
         if user and check_password_hash(user['password'], password):
             session['email'] = email
             return redirect(url_for('home'))
+        
         return 'Invalid credentials'
+    
     return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """Handles user registration."""
     if request.method == 'POST':
         firstName = request.form['firstName']
         lastName = request.form['lastName']
@@ -76,16 +82,20 @@ def signup():
         
         hashed_password = generate_password_hash(password)
         conn = get_db_connection()
+        
         try:
             # Insert user into users table
-            conn.execute('INSERT INTO users (firstName, lastName, email, password) VALUES (?, ?, ?, ?)', (firstName, lastName, email, hashed_password))
+            conn.execute('INSERT INTO users (firstName, lastName, email, password) VALUES (?, ?, ?, ?)', 
+                         (firstName, lastName, email, hashed_password))
             
             # Generate random banking number and create an account
             banking_number = generate_banking_number()
-            conn.execute('INSERT INTO accounts (user_id, accountNumber, accountBalance) VALUES ((SELECT user_id FROM users WHERE email = ?), ?, ?)', (email, banking_number, 100))
+            conn.execute('INSERT INTO accounts (user_id, accountNumber, accountBalance) VALUES ((SELECT user_id FROM users WHERE email = ?), ?, ?)', 
+                         (email, banking_number, 100))
             
             # Insert initial transaction into transactions table
-            conn.execute('INSERT INTO userBank (accountNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', (banking_number, datetime.now().strftime('%d-%m-%Y'), 'Initial Deposit', 100))
+            conn.execute('INSERT INTO userBank (accountNumber, transDate, transType, transAmount) VALUES (?, ?, ?, ?)', 
+                         (banking_number, datetime.now().strftime('%d-%m-%Y'), 'Initial Deposit', 100))
             
             conn.commit()
         except sqlite3.IntegrityError:
@@ -95,21 +105,26 @@ def signup():
         conn.close()
         session['email'] = email
         return "<script>alert('You have created your account'); window.location.href='/login';</script>"
+    
     return render_template('signup.html')
 
 @app.route('/my_accounts')
 def my_accounts():
+    """Returns a list of accounts for the logged-in user."""
     if 'email' not in session:
         return jsonify({'success': False, 'message': 'User not logged in'}), 401
     
     email = session['email']
     conn = get_db_connection()
-    accounts = conn.execute('SELECT * FROM accounts WHERE user_id = (SELECT user_id FROM users WHERE email = ?)', (email,)).fetchall()
+    accounts = conn.execute('SELECT * FROM accounts WHERE user_id = (SELECT user_id FROM users WHERE email = ?)', 
+                           (email,)).fetchall()
     conn.close()
+    
     return jsonify({'success': True, 'accounts': [dict(account) for account in accounts]})
 
 @app.route('/create_account', methods=['POST'])
 def create_account():
+    """Creates a new account for the logged-in user."""
     if 'email' not in session:
         return jsonify({'success': False, 'message': 'User not logged in'}), 401
 
@@ -118,7 +133,8 @@ def create_account():
     banking_number = generate_banking_number()
 
     try:
-        conn.execute('INSERT INTO accounts (user_id, accountNumber, accountBalance) VALUES ((SELECT user_id FROM users WHERE email = ?), ?, ?)', (email, banking_number, 0))
+        conn.execute('INSERT INTO accounts (user_id, accountNumber, accountBalance) VALUES ((SELECT user_id FROM users WHERE email = ?), ?, ?)', 
+                     (email, banking_number, 0))
         conn.commit()
         return jsonify({'success': True})
     except Exception as e:
@@ -128,19 +144,20 @@ def create_account():
         conn.close()
 
 def generate_banking_number():
-    # Generate a random 10-digit banking number
-    banking_number = int(''.join(random.choices(string.digits, k=10)))
-    return banking_number
+    """Generates a random 10-digit banking number."""
+    return int(''.join(random.choices(string.digits, k=10)))
 
 @app.route('/home')
 def home():
+    """Renders the home page for logged-in users."""
     if 'email' not in session:
         return redirect(url_for('login'))
+    
     return render_template('home.html')
-
 
 @app.route('/bank', methods=['GET', 'POST'])
 def bank():
+    """Handles banking operations including viewing balances and transactions."""
     if 'email' not in session:
         return redirect(url_for('login'))
 
@@ -149,9 +166,11 @@ def bank():
     if request.method == 'GET':
         user = conn.execute('SELECT * FROM users WHERE email = ?', (session['email'],)).fetchone()
         accounts = conn.execute('SELECT * FROM accounts WHERE user_id = ?', (user['user_id'],)).fetchall()
-        transactions = conn.execute('SELECT * FROM userBank WHERE accountNumber IN (SELECT accountNumber FROM accounts WHERE user_id = ?)', (user['user_id'],)).fetchall()
+        transactions = conn.execute('SELECT * FROM userBank WHERE accountNumber IN (SELECT accountNumber FROM accounts WHERE user_id = ?)', 
+                                    (user['user_id'],)).fetchall()
         account_balance = sum(account['accountBalance'] for account in accounts)  # Compute total balance
         conn.close()
+        
         return render_template('bank.html', accounts=accounts, transactions=transactions, accountBalance=account_balance)
 
     if request.method == 'POST':
@@ -190,18 +209,18 @@ def bank():
     
 @app.route('/get_transactions')
 def get_transactions():
+    """Returns the list of transactions for the logged-in user."""
     if 'email' not in session:
         return jsonify({'success': False, 'message': 'User not logged in'}), 401
     
     conn = get_db_connection()
     user = conn.execute('SELECT * FROM users WHERE email = ?', (session['email'],)).fetchone()
-    transactions = conn.execute('SELECT * FROM userBank WHERE accountNumber IN (SELECT accountNumber FROM accounts WHERE user_id = ?)', (user['user_id'],)).fetchall()
+    transactions = conn.execute('SELECT * FROM userBank WHERE accountNumber IN (SELECT accountNumber FROM accounts WHERE user_id = ?)', 
+                                (user['user_id'],)).fetchall()
     conn.close()
     
     return jsonify({'success': True, 'transactions': [dict(transaction) for transaction in transactions]})
 
-
-    
 @app.route('/transfer_funds', methods=['POST'])
 def transfer_funds():
     if 'email' not in session:
@@ -282,6 +301,7 @@ def contact():
 
 @app.route('/logout')
 def logout():
+    """Logs out the user by clearing the session."""
     session.pop('email', None)
     return redirect(url_for('login'))
 

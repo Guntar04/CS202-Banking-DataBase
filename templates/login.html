@@ -1,68 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <meta charset="UTF-8"> <!-- Character encoding -->
+    <title>Login</title> <!-- Page title -->
 </head>
 <body>
     <div class="contentTop">
-    <h1>NexBank - Login</h1>
+        <h1>NexBank - Login</h1> <!-- Main header -->
     </div>
     <div class="contentBody">
+        <!-- Login form -->
         <form method="post" action="/login">
             <label for="email">Email</label><br><br>
             <input type="text" id="email" name="email"><br><br>
             <label for="password">Password</label><br><br>
             <input type="password" id="password" name="password"><br><br>
-            <input type="submit" value="Login">
-            <button onclick="window.location.href='signup'; return false;">Signup</button>
+            <input type="submit" value="Login"> <!-- Submit button -->
+            <button onclick="window.location.href='signup'; return false;">Signup</button> <!-- Redirects to signup -->
         </form>
     </div>
-    
 </body>
 
 <style>
-
+    /* General body styling */
     body {
-        background-color: #122eaa;
-        font-family:'Times New Roman', Times, serif;
-        color: white;
+        background-color: #122eaa; /* Background color */
+        font-family: 'Times New Roman', Times, serif; /* Font style */
+        color: white; /* Text color */
     }
 
     .line {
-        border-bottom: 1px solid #888;
+        border-bottom: 1px solid #888; /* Line separator */
     }
 
+    /* Top content styling */
     .contentTop {
-        background-color: rgb(17, 108, 211);
-        padding: 20px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        margin-right:  auto;
-        margin-left:  auto;
-        text-align: center;
-        width: 50%;
+        background-color: rgb(17, 108, 211); /* Background color */
+        padding: 20px; /* Padding */
+        border-radius: 5px; /* Rounded corners */
+        margin: 0 auto 20px; /* Centered with bottom margin */
+        text-align: center; /* Center text */
+        width: 50%; /* Width of the container */
     }
 
+    /* Main content styling */
     .contentBody {
-        background-color: #202020c2;
-        padding: 20px;
-        border-radius: 5px;
-        margin: 0 auto; 
-        width: 50%;
-        text-align: center;
-        font-size:  150%;
+        background-color: #202020c2; /* Background color */
+        padding: 20px; /* Padding */
+        border-radius: 5px; /* Rounded corners */
+        margin: 0 auto; /* Centered horizontally */
+        width: 50%; /* Width of the container */
+        text-align: center; /* Center text */
+        font-size: 150%; /* Font size */
     }
     
-    input,button {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ffffff;
-        background-color: #888;
-        font-size: 150%;
-        color: white;
-        border-radius: 50px;
+    /* Input and button styling */
+    input, button {
+        padding: 10px; /* Padding */
+        border-radius: 50px; /* Rounded corners */
+        border: 1px solid #ffffff; /* Border color */
+        background-color: #888; /* Background color */
+        font-size: 150%; /* Font size */
+        color: white; /* Text color */
     }
-    
 </style>
 </html>

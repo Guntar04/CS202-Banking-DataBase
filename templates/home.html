@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    
 </head>
 <body>
+    <!-- Navigation bar -->
     <nav>
         <ul>
             <li><strong>NexBank</strong></li>
-            <li class="vertical-line"></li> <!-- Vertical Line Here -->
+            <li class="vertical-line"></li> <!-- Separator line -->
             <li><a href="/home">Home</a></li>
             <li><a href="/bank">Personal Bank</a></li>
             <li><a href="/profile">Profile</a></li>
@@ -17,43 +17,45 @@
             <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
         </ul>
     </nav>
+    
+    <!-- Main content area -->
     <div class="contentBody">
-        <img src="{{ url_for('static', filename='images/banner.png') }}" alt="Profile Image" style="float: left; margin-right: 10px;">
+        <img src="{{ url_for('static', filename='images/banner.png') }}" alt="Banner Image" style="float: left; margin-right: 10px;">
         <div class="content">
+            <!-- Individual content boxes -->
             <div class="box" style="background-color: #3c72d6;">
-            <h2>Loan Scheme</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <button class="fake-button">Click Here</button>
+                <h2>Loan Scheme</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button class="fake-button">Click Here</button>
             </div>
             <div class="box" style="background-color: #488ce6;">
-            <h2>Deposit Scheme</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <button class="fake-button">Click Here</button>
+                <h2>Deposit Scheme</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button class="fake-button">Click Here</button>
             </div>
             <div class="box" style="background-color: #4db0f1;">
-            <h2>Loan Scheme</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <button class="fake-button">Click here</button>
+                <h2>Loan Scheme</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button class="fake-button">Click here</button>
             </div>
         </div>
     </div>
+    
+    <!-- Footer -->
     <footer>
         <div class="footer-section1">
             <p><strong>NexBank</strong></p>
             <p>Honors Your Trust</p>
         </div>
         <div class="footer-section2">
-            <p><strong>Head office:</strong> 12th Avenue, Suite 3B, Sector 4,
-                Midtown, Tokyo-5678</p>
+            <p><strong>Head office:</strong> 12th Avenue, Suite 3B, Sector 4, Midtown, Tokyo-5678</p>
             <p><strong>Landline:</strong> 931-472-9305</p>
             <p><strong>Phone:</strong> (+829) 123456789</p>
             <p><strong>Email:</strong> contact@nexbank.com</p>
         </div>
         <div class="footer-section3">
             <h3>Our Mission Statement</h3>
-            <h4>To deliver great personal service and the best 
-                finacial products to our customers and the local
-                communities we serve.</h4>
+            <h4>To deliver great personal service and the best financial products to our customers and the local communities we serve.</h4>
             <p>Follow Us: 
                 <a href="#">Facebook</a> | 
                 <a href="#">Twitter</a> | 
@@ -61,37 +63,37 @@
             </p>
         </div>
     </footer>
-    </body>
+</body>
 
-    <style>
-    
+<style>
+    /* Navigation bar styling */
     nav {
-    background-color: rgb(17, 108, 211);
-    border-radius: 5px;
-    position: fixed; /* Fixes the navigation bar to the viewport */
-    top: 0; /* Position it at the top */
-    left: 0; /* Align it to the left */
-    width: 100%; /* Make it span the entire width */
-    z-index: 1000; /* Ensure it stays on top of other elements */
-}
+        background-color: rgb(17, 108, 211); /* Blue background */
+        border-radius: 5px;
+        position: fixed; /* Fixed position at the top */
+        top: 0;
+        left: 0;
+        width: 100%; /* Full width */
+        z-index: 1000; /* On top of other elements */
+    }
 
-ul {
-    display: flex;
-    list-style-type: none;
-    padding: 2% 0% 2% 3%;
-    font-size: 200%;
-    color: white;
-    margin: 0;
-}
+    ul {
+        display: flex; /* Horizontal layout */
+        list-style-type: none; /* Remove bullet points */
+        padding: 2% 0 2% 3%; /* Spacing around the list */
+        font-size: 200%; /* Large text */
+        color: white; /* White text color */
+        margin: 0; /* Remove default margin */
+    }
 
-li {
-    margin-right: 50px;
-    cursor: pointer; /* Change cursor to pointer to indicate clickability */
-}
+    li {
+        margin-right: 50px; /* Spacing between items */
+        cursor: pointer; /* Pointer cursor for clickability */
+    }
 
     a {
-        color: white;
-        text-decoration: none;
+        color: white; /* White text color for links */
+        text-decoration: none; /* Remove underline */
     }
 
     nav ul li.vertical-line::after {
@@ -99,98 +101,104 @@ li {
         display: inline-block;
         width: 8px;
         height: 100%;
-        background-color: white; /* Adjust color as needed */
-        margin: 0 10px 0 0;
-        border-radius: 10%;
+        background-color: white; /* White vertical line */
+        margin: 0 10px 0 0; /* Space between line and text */
+        border-radius: 10%; /* Rounded ends for line */
     }
 
+    /* Body styling */
     body {
-        background-color: #ffffff;
-        font-family: Arial, sans-serif;
-        color: white;
+        background-color: #ffffff; /* White background */
+        font-family: Arial, sans-serif; /* Font styling */
+        color: white; /* Text color */
         margin: 0; /* Remove default margin */
-    padding-top: 60px; /* Add padding equal to or greater than the nav height to avoid overlap */
+        padding-top: 60px; /* Space for fixed nav */
     }
 
+    /* Main content styling */
     .contentBody {
-        background-color: #202020c2;
-        margin: 0 auto; 
+        background-color: #202020c2; /* Dark background */
+        margin: 0 auto; /* Center align */
         display: flex;
-        text-align: center;
-        flex-direction: column
+        text-align: center; /* Center text */
+        flex-direction: column; /* Stack content vertically */
     }
+
     .content {
-        display: flex;
-        justify-content: center;
-        flex-wrap: nowrap;
-        flex-direction: row;
+        display: flex; /* Horizontal layout */
+        justify-content: center; /* Center content */
+        flex-wrap: nowrap; /* Prevent wrapping */
+        flex-direction: row; /* Horizontal arrangement */
     }
-    .content p{
-        font-size: 200%;
-        padding: 20px 30px 20px 30px;
+
+    .content p {
+        font-size: 200%; /* Larger text */
+        padding: 20px 30px; /* Spacing around text */
     }
 
     img {
-        width: 100%;
-        height: auto;
+        width: 100%; /* Full width image */
+        height: auto; /* Maintain aspect ratio */
     }
 
+    /* Box styling */
     .box {
-        display: inline-block;
-        padding: 5%;
-        text-align: center;
-        border-radius: 5px;
+        display: inline-block; /* Inline block for layout */
+        padding: 5%; /* Padding inside boxes */
+        text-align: center; /* Center text */
+        border-radius: 5px; /* Rounded corners */
     }
 
+    /* Button styling */
     .fake-button {
-        background-color: #c0a71a;
-        color: white;
-        font-size: 150%;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 20px;
-        cursor: not-allowed;
-        }
+        background-color: #c0a71a; /* Button color */
+        color: white; /* White text */
+        font-size: 150%; /* Larger text */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Padding inside button */
+        border-radius: 20px; /* Rounded corners */
+        cursor: not-allowed; /* No-click cursor */
+    }
 
+    /* Footer styling */
     footer {
-        display: flex;
-        justify-content: space-between;
-        height: auto;
-        background-color: #202020;
-        color: white;
+        display: flex; /* Flexbox for layout */
+        justify-content: space-between; /* Space between sections */
+        background-color: #202020; /* Dark background */
+        color: white; /* White text color */
     }
 
     .footer-section1, .footer-section3 {
-        flex: 1;
-        padding: 3%;
+        flex: 1; /* Equal flex growth */
+        padding: 3%; /* Padding inside sections */
         display: flex;
-        text-align: center;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        text-align: center; /* Center text */
+        flex-direction: column; /* Stack text vertically */
+        align-items: center; /* Center align items */
+        justify-content: center; /* Center content */
     }
 
-    .footer-section2{
-        font-size: 120%;
-        padding: 3%;
+    .footer-section2 {
+        font-size: 120%; /* Slightly larger text */
+        padding: 3%; /* Padding inside section */
         display: flex;
-        text-align: center;
-        flex-direction: column;
-        align-items: flex-start;
+        text-align: center; /* Center text */
+        flex-direction: column; /* Stack text vertically */
+        align-items: flex-start; /* Left align items */
     }
 
     .footer-section1 p {
-        font-size: 200%;
-        margin: 15px;
+        font-size: 200%; /* Larger text */
+        margin: 15px; /* Margin around paragraphs */
     }
 
     .footer-section a {
-        color: white;
-        text-decoration: none;
+        color: white; /* White text color for links */
+        text-decoration: none; /* Remove underline */
     }
 
     .footer-section a:hover {
-        text-decoration: underline;
+        text-decoration: underline; /* Underline on hover */
     }
 </style>
 </html>

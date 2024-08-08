@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
+    <meta charset="UTF-8"> <!-- Character encoding -->
+    <title>Profile</title> <!-- Page title -->
 </head>
 <body>
     <nav>
@@ -16,10 +16,11 @@
             <li style="margin-left: auto;"><a href="/logout">Sign Out</a></li>
         </ul>
     </nav>
+    
     <div class="contentBody">
         <div class="profile-header">
             <img src="{{ url_for('static', filename='images/profile.png') }}" alt="Profile Image" class="profile-image">
-            <h1>{{ firstName }} {{ lastName }}'s Profile</h1>
+            <h1>{{ firstName }} {{ lastName }}'s Profile</h1> <!-- User profile heading -->
         </div>
         <hr>
         <div class="content">
@@ -37,8 +38,8 @@
                     <input type="email" name="email" value="{{ email }}" readonly>
                 </p>
                 <div class="button-container">
-                    <button type="button" id="edit-button" onclick="toggleEdit()">Edit</button>
-                    <button type="submit" id="save-button" style="display: none;">Save</button>
+                    <button type="button" id="edit-button" onclick="toggleEdit()">Edit</button> <!-- Edit button -->
+                    <button type="submit" id="save-button" style="display: none;">Save</button> <!-- Save button -->
                 </div>
             </form>
         </div>
@@ -46,132 +47,132 @@
 </body>
 
 <style>
-nav {
-    background-color: rgb(17, 108, 211);
-    border-radius: 5px;
-    position: fixed; /* Fixes the navigation bar to the viewport */
-    top: 0; /* Position it at the top */
-    left: 0; /* Align it to the left */
-    width: 100%; /* Make it span the entire width */
-    z-index: 1000; /* Ensure it stays on top of other elements */
-}
+    nav {
+        background-color: rgb(17, 108, 211); /* Nav bar background */
+        border-radius: 5px; /* Rounded corners */
+        position: fixed; /* Fixes nav bar to viewport */
+        top: 0; /* Position at top */
+        left: 0; /* Align left */
+        width: 100%; /* Full width */
+        z-index: 1000; /* Ensure on top */
+    }
 
-ul {
-    display: flex;
-    list-style-type: none;
-    padding: 2% 0% 2% 3%;
-    font-size: 200%;
-    color: white;
-    margin: 0;
-}
+    ul {
+        display: flex; /* Horizontal layout */
+        list-style-type: none; /* Remove bullets */
+        padding: 2% 0% 2% 3%; /* Padding */
+        font-size: 200%; /* Font size */
+        color: white; /* Text color */
+        margin: 0; /* Remove margin */
+    }
 
-li {
-    margin-right: 50px;
-    cursor: pointer; /* Change cursor to pointer to indicate clickability */
-}
+    li {
+        margin-right: 50px; /* Space between items */
+        cursor: pointer; /* Pointer cursor */
+    }
 
     a {
-        color: white;
-        text-decoration: none;
+        color: white; /* Link color */
+        text-decoration: none; /* Remove underline */
     }
 
     nav ul li.vertical-line::after {
-        content: "";
+        content: ""; /* Vertical line */
         display: inline-block;
         width: 8px;
         height: 100%;
-        background-color: white;
-        margin: 0 10px 0 0;
-        border-radius: 10%;
+        background-color: white; /* Line color */
+        margin: 0 10px 0 0; /* Margin */
+        border-radius: 10%; /* Rounded ends */
     }
 
     body {
-        background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
-        background-size: cover;
-        font-family: Arial, sans-serif;
-        color: white;
-        margin: 0; /* Remove default margin */
-    padding-top: 60px; /* Add padding equal to or greater than the nav height to avoid overlap */
+        background-image: url("{{ url_for('static', filename='images/background.jpg') }}"); /* Background image */
+        background-size: cover; /* Cover entire area */
+        font-family: Arial, sans-serif; /* Font style */
+        color: white; /* Text color */
+        margin: 0; /* Remove margin */
+        padding-top: 60px; /* Space for nav bar */
     }
 
     h1 {
-        font-size: 250%;
+        font-size: 250%; /* Heading size */
     }
 
     .line {
-        border-bottom: 1px solid #888;
+        border-bottom: 1px solid #888; /* Bottom border */
     }
 
     .contentBody {
-        background-color: #202020c2;
-        padding: 20px;
-        border-radius: 5px;
-        margin: 0 auto;
-        margin-top: 30px;
-        width: 66.67%;
-        position: relative;
+        background-color: #202020c2; /* Background color */
+        padding: 20px; /* Padding */
+        border-radius: 5px; /* Rounded corners */
+        margin: 0 auto; /* Center horizontally */
+        margin-top: 30px; /* Margin top */
+        width: 66.67%; /* Width */
+        position: relative; /* Position relative */
     }
 
     .profile-header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
+        display: flex; /* Flex layout */
+        align-items: center; /* Center items */
+        justify-content: center; /* Center content */
+        margin-bottom: 20px; /* Margin bottom */
     }
 
     .profile-image {
-        width: 15%;
-        height: auto;
-        border-radius: 50%;
-        margin-right: 20px;
+        width: 15%; /* Image width */
+        height: auto; /* Auto height */
+        border-radius: 50%; /* Circular image */
+        margin-right: 20px; /* Margin right */
     }
 
     .content {
-        align-content: center;
-        text-align: left;
-        width: 80%;
-        margin: 0 auto;
+        align-content: center; /* Align content */
+        text-align: left; /* Left align text */
+        width: 80%; /* Width */
+        margin: 0 auto; /* Center horizontally */
     }
 
     .content p {
-        font-size: 150%;
-        padding: 20px 30px 20px 30px;
-        margin: 0;
+        font-size: 150%; /* Font size */
+        padding: 20px 30px; /* Padding */
+        margin: 0; /* Remove margin */
     }
 
     input {
-        font-size: 150%;
-        padding: 5px;
-        border-radius: 5px;
-        border: none;
-        width: 100%;
-        box-sizing: border-box;
-        background-color: #333;
-        color: white;
+        font-size: 150%; /* Font size */
+        padding: 5px; /* Padding */
+        border-radius: 5px; /* Rounded corners */
+        border: none; /* No border */
+        width: 100%; /* Full width */
+        box-sizing: border-box; /* Include padding in width */
+        background-color: #333; /* Background color */
+        color: white; /* Text color */
     }
 
     .button-container {
-        text-align: right;
-        margin-top: 20px;
+        text-align: right; /* Align right */
+        margin-top: 20px; /* Margin top */
     }
 
     button {
-        font-size: 150%;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin: 5px;
+        font-size: 150%; /* Font size */
+        padding: 10px 20px; /* Padding */
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor */
+        margin: 5px; /* Margin */
     }
 
     #edit-button {
-        background-color: #4CAF50; /* Green */
-        color: white;
+        background-color: #4CAF50; /* Green button */
+        color: white; /* Text color */
     }
 
     #save-button {
-        background-color: #2196F3; /* Blue */
-        color: white;
+        background-color: #2196F3; /* Blue button */
+        color: white; /* Text color */
     }
 </style>
 
@@ -182,15 +183,15 @@ li {
         const saveButton = document.getElementById('save-button');
         
         inputs.forEach(input => {
-            input.readOnly = !input.readOnly;
+            input.readOnly = !input.readOnly; /* Toggle read-only */
         });
 
         if (editButton.textContent === 'Edit') {
-            editButton.textContent = 'Cancel';
-            saveButton.style.display = 'inline';
+            editButton.textContent = 'Cancel'; /* Change button text */
+            saveButton.style.display = 'inline'; /* Show save button */
         } else {
-            editButton.textContent = 'Edit';
-            saveButton.style.display = 'none';
+            editButton.textContent = 'Edit'; /* Revert button text */
+            saveButton.style.display = 'none'; /* Hide save button */
         }
     }
 </script>
