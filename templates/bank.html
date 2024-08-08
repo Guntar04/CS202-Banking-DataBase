@@ -51,7 +51,8 @@
 
         /* General body styling */
         body {
-            background-color: #0034a3; /* Dark blue background color */
+            background-image: url("{{ url_for('static', filename='images/background.jpg') }}"); /* Background image */
+            background-size: cover; /* Cover entire area */
             font-family: Arial, sans-serif; /* Font styling */
             color: white; /* White text color */
             margin: 0; /* Remove default margin */
